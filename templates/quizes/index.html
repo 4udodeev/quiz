@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    </head>
+    <body>
+        <img id="background_image" src="{% static 'img/background.png' %}">
+        <header>
+            <img id="back_1" src="{% static 'img/back_1.svg' %}">
+            <div id="header_text">
+                <h1>ОЦЕНКА ПЕРСОНАЛА</h1>
+                <h3>Модуль по оценке и тестированию профессиональных компетенций</h3>
+            </div>
+        </header>
+        <div id="buttons_div">
+            <button onclick="window.location='quiz/1/'"><img src="{% static 'img/dit_button.svg' %}"> <br>ОЦЕНКА КОМПЕТЕНЦИЙ ДЛЯ ДИТ</button>
+            <button onclick="window.location='quiz/FIN/'"><img src="{% static 'img/fin_button.svg' %}"> <br>ОЦЕНКА КОМПЕТЕНЦИЙ ДЛЯ ФИНАНСИСТОВ</button>
+            <button onclick="window.location='quiz/HR/'"><img src="{% static 'img/hr_button.svg' %}"> <br>ОЦЕНКА КОМПЕТЕНЦИЙ ДЛЯ HR</button>
+            <button onclick="window.location='quiz/LAWYER/'"><img src="{% static 'img/lawyer_button.svg' %}"> <br>ОЦЕНКА КОМПЕТЕНЦИЙ ДЛЯ ЮРИСТОВ</button>
+        </div>
+    </body>
+</html>

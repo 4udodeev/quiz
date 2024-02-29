@@ -1,0 +1,19 @@
+<!-- quiz_result.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Result</title>
+</head>
+<body>
+
+<h1>{{ quiz.name }} - Результаты</h1>
+<p>Ваш счет: {{ score }} из {{ quiz.pass_score }}</p>
+
+<h2>Результаты предыдущих попыток:</h2>
+{% for result in results %}
+    <p>{{ result.user.last_name }} {{ result.user.first_name }} - {{ result.score }} баллов</p>
+{% endfor %}
+
+</body>
+</html>

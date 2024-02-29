@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+    </head>
+    <body>
+        <img id="near_back_img" src="{% static 'img/near_back.svg' %}">
+        <img id="upper_back_img" src="{% static 'img/near_back.svg' %}">
+        <header>
+            <button id="header_button" onclick="window.location='../../'"><img src="{% static 'img/back_arrow.svg' %}"></button>
+            <h2>{{ quiz.name }}</h2>
+            <button id="lk_button" onclick=""><img src="{% static 'img/lk_icon.svg' %}"><span>Пользователь</span></button>
+        </header>
+        <div id="upper_line">
+            <div class="answered_div">
+                <span>Правильно</span> <img src="{% static 'img/ok_finger.svg' %}"> <span>12</span>
+            </div>
+            <div class="answered_div">
+                <span>Не правильно</span> <img src="{% static 'img/wrong_finger.svg' %}"> <span>3</span>
+            </div>
+            <div id="time_div">
+                <b>Время теста</b> <img src="{% static 'img/clock.svg' %}"> <b>08:34</b>
+            </div>
+        </div>
+        <div id="question">
+            <span id="green_text">15</span>/<span id="grey_text">35</span> Перечислите участников процесса практической подготовки в АО “МАШ”
+        </div>
+        <div id="answers">
+            {% for question_data in data: %}
+                {% for question, answers in question_data.items():  %}
+        </div>
+        <div id="navi_buttons">
+
+        </div>
+    </body>
+</html>
