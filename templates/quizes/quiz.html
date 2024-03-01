@@ -32,8 +32,7 @@
             <span id="green_text">15</span>/<span id="grey_text">35</span> Перечислите участников процесса практической подготовки в АО “МАШ”
         </div>
         <div id="answers">
-            {% for question_data in data: %}
-                {% for question, answers in question_data.items():  %}
+            {{ data }}
         </div>
         <div id="navi_buttons">
 
