@@ -28,15 +28,18 @@
                 <b>Время теста</b> <img src="{% static 'img/clock.svg' %}"> <b>08:34</b>
             </div>
         </div>
+        {% for obj in page_obj %}
         <div id="question">
-            <span id="green_text">15</span>/<span id="grey_text">35</span> Перечислите участников процесса практической подготовки в АО “МАШ”
+            <span id="green_text">{{ page_obj.number }}</span>/<span id="grey_text">{{ page_obj.paginator.num_pages }}</span>  {{ obj.name }}
         </div>
         <div id="answers">
-            {% for question_data in data: %}
-                {% for question, answers in question_data.items():  %}
+                {% for answer in obj.answers %}
+                    {{ answer }}
+                {% endfor %}
         </div>
+        {% endfor %}
         <div id="navi_buttons">
-
+            {% include "includes/paginator.html" %}
         </div>
     </body>
 </html>

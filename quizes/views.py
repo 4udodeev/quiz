@@ -1,7 +1,8 @@
+from django.db.models import Subquery, OuterRef, Prefetch
 from django.shortcuts import render
-import json
+from django.views.generic import ListView
 
-from .models import Quiz
+from .models import Question, Answer
 
 
 def index(request):
@@ -11,17 +12,16 @@ def index(request):
     )
 
 
-def quiz(request, test_id):
-    quiz = Quiz.objects.get(pk=1)
-    questions = []
-    for q in quiz.get_questions():
-        answers = []
-        for a in q.get_answers():
-            answers.append(a.description)
-        questions.append({str(q)+"/"+q.question_type: answers})
-    data = json.loads(str(questions).replace("'", "\""))
-    return render(
-        request,
-        'quizes/quiz.html',
-        {'test_id': test_id, 'data': data}
-    )
+class QuestionListView(ListView):
+    model = Question
+    paginate_by = 1
+    test_id = None
+
+    def get_queryset(self):
+        subquery = Answer.objects.filter(
+            question_id=OuterRef('id')
+        ).values('description')
+
+        return Question.objects.filter(quiz_id=1).prefetch_related(
+            Prefetch('answer_set', queryset=Answer.objects.only('description'), to_attr='answers')
+        )
