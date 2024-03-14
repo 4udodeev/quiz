@@ -33,9 +33,13 @@
             <span id="green_text">{{ page_obj.number }}</span>/<span id="grey_text">{{ page_obj.paginator.num_pages }}</span>  {{ obj.name }}
         </div>
         <div id="answers">
+<<<<<<< HEAD:templates/quizes/question_list.html
                 {% for answer in obj.answers %}
                     {{ answer }}
                 {% endfor %}
+=======
+            {{ data }}
+>>>>>>> c177387ac7fdd18c7e017a202e054aaf99975217:templates/quizes/quiz.html
         </div>
         {% endfor %}
         <div id="navi_buttons">
