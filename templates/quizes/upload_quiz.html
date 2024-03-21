@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка теста из Excel</title>
+</head>
+<body>
+    <h1>Загрузка теста из Excel</h1>
+    <form action="{% url 'upload_quiz' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="quiz_file">
+        <button type="submit">Загрузить тест</button>
+    </form>
+</body>
+</html>

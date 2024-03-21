@@ -45,7 +45,7 @@ class BaseModel(models.Model):
 class Quiz(BaseModel):
     """Тест"""
 
-    time = models.TimeField(verbose_name='Продолжительность теста')
+    time = models.IntegerField(verbose_name='Продолжительность теста в минутах')
     pass_score = models.IntegerField(help_text='Проходной балл')
     created_by = models.ForeignKey(
         User,
@@ -78,8 +78,6 @@ class Question(BaseModel):
     QUESTION_TYPES = [
         ('single_choice', 'Единственный выбор'),
         ('multiplie_choice', 'Множественный выбор'),
-        ('ranged', 'Ранжирование'),
-        ('compare', 'Сопоставление'),
     ]
     question_type = models.CharField(
         max_length=30,

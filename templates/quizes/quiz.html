@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+</head>
+<body>
+    <header>
+        <button id="header_button" onclick="window.location='../../'"><img src="{% static 'img/back_arrow.svg' %}"></button>
+        <h1>{{ quiz.name }}</h1>
+        <button id="lk_button" onclick=""><img src="{% static 'img/lk_icon.svg' %}"><span>{{ user }}</span></button>
+    </header>
+    <div id="upper_line">
+        <h2>Вопрос  <span id="current_question"></span>  из  <span id="questions_count"></span> </h2>
+        <div id="time_div">
+            <b>Время теста</b> <img src="{% static 'img/clock.svg' %}"> <b id="timer"></b>
+        </div>
+    </div>
+    <form action="{% url 'save_result' quiz_id=quiz.id %}" method="post" id="quiz-form">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div class="question-container" style="display: {% if forloop.first %}block{% else %}none{% endif %}">
+                <hr>
+                <h2>{{ question.name }}</h2>
+                <hr>
+                    
+                    {% for answer in question.get_answers %}
+                        <p><input 
+                            {% if question.question_type == 'single_choice' %}
+                                type="radio"
+                            {% else %}
+                                type="checkbox"
+                            {% endif %}
+                            name="question_{{ question.id }}" value="{{ answer.id }}">
+                            <label for="question_{{ question.id }}">{{ answer.description }}</label></p>
+                    {% endfor %}
+            </div>
+        {% endfor %}
+        <div id="navi_buttons">
+            <input type="hidden" name="current_question_index" id="current_question_index" value="0">
+            <button class="page-btn" type="button" id="prev-btn" onclick="showPrevQuestion()">Назад</button>
+            <button class="page-btn" type="button" id="next-btn" onclick="showNextQuestion()">Далее</button>
+            <button class="page-btn" type="submit" id="finish-btn" style="display: none;">Завершить тест</button>
+        </div>
+    </form>
+
+    <script>
+        // таймер теста ---------------------------
+        var timeLeft = {{ quiz.time }} * 60; // Продолжительность теста в секундах
+        var timerElement = document.getElementById('timer');
+
+        function startTimer() {
+            var timerInterval = setInterval(function() {
+                var minutes = Math.floor(timeLeft / 60);
+                var seconds = timeLeft % 60;
+                timerElement.textContent = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('quiz-form').submit(); // Автоматически отправляем форму по истечении времени
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        startTimer();
+
+        // переключение вопросов по одному -----------------------------------
+        var currentQuestionIndex = 0;
+        var questionsContainers = document.querySelectorAll('.question-container');
+        var questionsCount = questionsContainers.length;
+
+        function showPrevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                updateQuestionVisibility();
+            }
+        }
+
+        function showNextQuestion() {
+            if (currentQuestionIndex < questionsCount - 1) {
+                currentQuestionIndex++;
+                updateQuestionVisibility();
+            } else {
+                document.getElementById('quiz-form').submit();
+            }
+        }
+
+        function updateQuestionVisibility() {
+            questionsContainers.forEach(function(container, index) {
+                container.style.display = index === currentQuestionIndex ? 'block' : 'none';
+            });
+            document.getElementById('prev-btn').style.display = currentQuestionIndex === 0 ? 'none' : 'block';
+            document.getElementById('next-btn').style.display = currentQuestionIndex === questionsCount - 1 ? 'none' : 'block';
+            document.getElementById('finish-btn').style.display = currentQuestionIndex === questionsCount - 1 ? 'block' : 'none';
+            document.getElementById('current_question_index').value = currentQuestionIndex;
+            document.getElementById('current_question').innerHTML = currentQuestionIndex+1; // счетчик вопросов на страницу
+            document.getElementById('questions_count').innerHTML = questionsCount;
+        }
+        
+        // Показываем первый вопрос при загрузке страницы
+        updateQuestionVisibility();
+    </script>
+</body>
+</html>
